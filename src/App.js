@@ -1,6 +1,6 @@
 import React from 'react';
 import './pages/Homepage.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes and Route
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import Homepage from './pages/Homepage';
 import EmployeeMaintenance from './pages/EmployeeMaintenance';
 
@@ -8,9 +8,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Routes> {/* Wrap Routes around your routes */}
-          <Route path="/" element={<Homepage />} /> {/* Use element prop to specify component */}
-          <Route path="/employee-maintenance" element={<EmployeeMaintenance />} /> {/* Use element prop to specify component */}
+        <Routes> 
+          <Route path="/" element={<Homepage />} /> 
+          <Route path="/employee-maintenance" element={<EmployeeMaintenance />} /> 
         </Routes>
       </div>
     </Router>
