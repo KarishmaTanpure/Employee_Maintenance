@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import TextField from "@mui/material/TextField"; 
 import "./EmployeeMaintenance.css";
 
 const EmployeeMaintenance = () => {
@@ -25,6 +24,7 @@ const EmployeeMaintenance = () => {
     const [aadharCard, setAadharCard] = useState('');
     const [panCard, setPanCard] = useState('');
     const [photo, setPhoto] = useState(null);
+    const [communicationAddress, setCommunicationAddress] = useState('');
     
 
     const salutationOptions = [
@@ -37,6 +37,19 @@ const EmployeeMaintenance = () => {
         { label: 'Undergraduate', value: 'Undergraduate' },
         { label: 'Graduate', value: 'Graduate' },
         { label: 'Post-graduate', value: 'Post-graduate' },
+    ];
+
+    const experienceOptions = [
+        { label: '0-10 yrs', value: '0-10' },
+        { label: '10-15 yrs', value: '10-15' },
+        { label: '20+ yrs', value: '20+' },
+    ];
+
+    const priorExperienceOptions = [
+        { label: '0-2 yrs', value: '0-2' },
+        { label: '2-5 yrs', value: '2-5' },
+        { label: '5-10 yrs', value: '5-10' },
+        { label: '10+ yrs', value: '10+' },
     ];
 
     const handleSalutationChange = (e) => {
@@ -70,6 +83,11 @@ const EmployeeMaintenance = () => {
     const handleExperienceChange = (e) => {
         setExperience(e.target.value);
     };
+
+    const handleCommunicationAddressChange = (e) => { 
+        setCommunicationAddress(e.target.value);
+    };
+
 
     const handlePriorExperienceChange = (e) => {
         setPriorExperience(e.target.value);
@@ -135,6 +153,7 @@ const EmployeeMaintenance = () => {
                             name="salutation"
                             value={salutation}
                             onChange={handleSalutationChange}
+                            type="text"
                             required
                         >
                             <option value="">Select Salutation</option>
@@ -145,48 +164,46 @@ const EmployeeMaintenance = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="firstName">First Name: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="firstName"
                             name="firstName"
                             value={firstName}
                             onChange={handleFirstNameChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
+                            className="small-input"
                             required
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="middleName">Middle Name:</label>
-                        <TextField
+                        <input
                             id="middleName"
                             name="middleName"
                             value={middleName}
                             onChange={handleMiddleNameChange}
                             variant="outlined"
-                            fullWidth
+                            type="text"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="lastName">Last Name: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="lastName"
                             name="lastName"
                             value={lastName}
                             onChange={handleLastNameChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
                             required
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="dob">Date of Birth: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="dob"
                             name="dob"
                             type="date"
                             value={dob}
                             onChange={handleDOBChange}
-                            variant="outlined"
                             fullWidth
                             required
                         />
@@ -198,8 +215,7 @@ const EmployeeMaintenance = () => {
                             name="education"
                             value={education}
                             onChange={handleEducationChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
                         >
                             <option value="">Select Educational Qualification</option>
                             {educationOptions.map(option => (
@@ -209,182 +225,178 @@ const EmployeeMaintenance = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sportsSpecialization">Sports Specialization: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="sportsSpecialization"
                             name="sportsSpecialization"
                             value={sportsSpecialization}
                             onChange={handleSportsSpecializationChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="experience">Experience: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
-                            id="experience"
-                            name="experience"
+                        <label htmlFor="totalExperience">Total Experience: <span style={{ color: 'red' }}>*</span></label>
+                        <select
+                            id="totalExperience"
+                            name="totalExperience"
+                            type = "text"
                             value={experience}
-                            onChange={handleExperienceChange}
-                            variant="outlined"
-                            fullWidth
                             required
-                        />
+                            onChange={handleExperienceChange}
+                        >
+                            <option value="">Select Total Experience</option>
+                            {experienceOptions.map(option => (
+                                <option key={option.value} value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="priorExperience">Prior Experience: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <label htmlFor="priorExperience">Relevant Experience: <span style={{ color: 'red' }}>*</span></label>
+                        <select
                             id="priorExperience"
                             name="priorExperience"
+                            type="text"
                             value={priorExperience}
                             onChange={handlePriorExperienceChange}
-                            variant="outlined"
-                            fullWidth
                             required
-                        />
+                        >
+                            <option value="">Select Relevant Experience</option>
+                            {priorExperienceOptions.map(option => (
+                                <option key={option.value} value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="departmentId">Department ID: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="departmentId"
                             name="departmentId"
                             value={departmentId}
                             onChange={handleDepartmentIdChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
                             required
+                        />
+                        <a href={`/department/${departmentId}`} target="_blank" rel="noopener noreferrer">View Department</a>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="permanentAddress">Permanent Address: <span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            id="permanentAddress"
+                            name="permanentAddress"
+                            value={permanentAddress}
+                            onChange={handlePermanentAddressChange}
+                            required
+                            type="text"
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="salary">Salary: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
-                            id="salary"
-                            name="salary"
-                            value={salary}
-                            onChange={handleSalaryChange}
-                            variant="outlined"
-                            fullWidth
+                        <label htmlFor="addressLine1">Address Line 1:</label>
+                        <input
+                            id="addressLine1"
+                            name="addressLine1"
+                            value={addressLine1}
+                            onChange={handleAddressLine1Change}
+                            type="text"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="addressLine2">Address Line 2:</label>
+                        <input
+                            id="addressLine2"
+                            name="addressLine2"
+                            value={addressLine2}
+                            onChange={handleAddressLine2Change}
+                            type="text"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="addressLine3">Address Line 3:</label>
+                        <input
+                            id="addressLine3"
+                            name="addressLine3"
+                            value={addressLine3}
+                            onChange={handleAddressLine3Change}
+                            type = "text"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="communicationAddress">Communication Address: <span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            id="communicationAddress"
+                            name="communicationAddress"
+                            value={communicationAddress}
+                            onChange={handleCommunicationAddressChange}
+                            type = "text"
                             required
                         />
+                        <div>
+                        <button type="button" onClick={handleCopyPermanentAddress}>Same as Permanent address</button>
+                    </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="phone">Phone: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="phone"
                             name="phone"
                             value={phone}
                             onChange={handlePhoneChange}
-                            variant="outlined"
-                            fullWidth
+                            type="text"
                             required
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email ID: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="email"
                             name="email"
                             value={email}
                             onChange={handleEmailChange}
-                            variant="outlined"
-                            fullWidth
                             required
+                            type = "text"
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="permanentAddress">Permanent Address: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
-                            id="permanentAddress"
-                            name="permanentAddress"
-                            value={permanentAddress}
-                            onChange={handlePermanentAddressChange}
-                            variant="outlined"
-                            fullWidth
-                            required
+                        <label htmlFor="salary">Salary: <span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            id="salary"
+                            name="salary"
+                            value={salary}
+                            onChange={handleSalaryChange}
+                            placeholder="Enter salary in LPA"
+                            type ="text"
                         />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="permanentAddress">Permanent Address: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
-                            id="permanentAddress"
-                            name="permanentAddress"
-                            value={permanentAddress}
-                            onChange={handlePermanentAddressChange}
-                            variant="outlined"
-                            fullWidth
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="addressLine1">Address Line 1:</label>
-                        <TextField
-                            id="addressLine1"
-                            name="addressLine1"
-                            value={addressLine1}
-                            onChange={handleAddressLine1Change}
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="addressLine2">Address Line 2:</label>
-                        <TextField
-                            id="addressLine2"
-                            name="addressLine2"
-                            value={addressLine2}
-                            onChange={handleAddressLine2Change}
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="addressLine3">Address Line 3:</label>
-                        <TextField
-                            id="addressLine3"
-                            name="addressLine3"
-                            value={addressLine3}
-                            onChange={handleAddressLine3Change}
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </div>
-                    <div>
-                        <button type="button" onClick={handleCopyPermanentAddress}>Same as Permanent address</button>
                     </div>
                     <div className="form-group">
                         <label htmlFor="emergencyContact">Emergency Contact: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="emergencyContact"
                             name="emergencyContact"
                             value={emergencyContact}
                             onChange={(e) => setEmergencyContact(e.target.value)}
-                            variant="outlined"
-                            fullWidth
                             required
+                            type ="text"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="aadharCard">Aadhar Card: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="aadharCard"
                             name="aadharCard"
                             value={aadharCard}
                             onChange={(e) => setAadharCard(e.target.value)}
-                            variant="outlined"
-                            fullWidth
                             required
+                            type = "text"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="panCard">PAN Card: <span style={{ color: 'red' }}>*</span></label>
-                        <TextField
+                        <input
                             id="panCard"
                             name="panCard"
                             value={panCard}
                             onChange={(e) => setPanCard(e.target.value)}
-                            variant="outlined"
-                            fullWidth
                             required
+                            type ="text"
                         />
                     </div>
                     <div className="form-group">

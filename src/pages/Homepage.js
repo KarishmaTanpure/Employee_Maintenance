@@ -5,6 +5,8 @@ import '../components/Navbar.css';
 const HomePage = () => {
     const [fields, setFields] = useState([{ id: 1, deptId: '', deptName: '' }]);
     const [departments, setDepartments] = useState([]);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [showError, setShowError] = useState(false);
     const DEPT_NAME_MAX_LENGTH = 100;
 
     const handleAddFields = () => {
@@ -17,43 +19,58 @@ const HomePage = () => {
         setFields(updatedFields);
     };
 
-    const handleChange = (id, e) => {
+    const handleChange = (index, e) => {
         const { name, value } = e.target;
-        
-        
+
         const isValidDeptId = /^[a-zA-Z0-9]{0,10}$/.test(value);
-        
         const isValidDeptName = value.length <= DEPT_NAME_MAX_LENGTH;
 
-        
         if ((name === 'deptId' && isValidDeptId) || (name === 'deptName' && isValidDeptName)) {
-            const updatedFields = fields.map(field => {
-                if (field.id === id) {
-                    return { ...field, [name]: value };
-                }
-                return field;
-            });
+            const updatedFields = [...fields];
+            updatedFields[index] = { ...updatedFields[index], [name]: value };
             setFields(updatedFields);
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
+        const isEmptyField = fields.some(field => !field.deptId || !field.deptName);
+        if (isEmptyField) {
+            setShowError(true);
+            return;
+        }
+
         setDepartments([...departments, ...fields]);
-        
         setFields([{ id: 1, deptId: '', deptName: '' }]);
+        setShowSuccessPopup(true);
+        setTimeout(() => {
+            setShowSuccessPopup(false);
+        }, 3000);
+        setShowError(false);
     };
 
-    const handleViewDepartments = () => {
-        
-        console.log('Viewing all departments:', departments);
-        
+    const handleRemoveDepartment = (index) => {
+        const updatedDepartments = [...departments];
+        updatedDepartments.splice(index, 1);
+        setDepartments(updatedDepartments);
     };
 
-    const handleEditField = (id) => {
-        
-        console.log(`Editing field with ID ${id}`);
+    const handleViewDepartment = (index) => {
+        console.log('Viewing department:', departments[index]);
+    };
+
+    const handleEditDepartment = (index) => {
+        const updatedDepartments = [...departments];
+        updatedDepartments[index].isEditing = true;
+        setDepartments(updatedDepartments);
+    };
+
+    const handleSaveEdit = (index) => {
+        const updatedDepartments = [...departments];
+        updatedDepartments[index].isEditing = false;
+        updatedDepartments[index].deptName = fields[index].deptName;
+        setDepartments(updatedDepartments);
     };
 
     return (
@@ -62,39 +79,93 @@ const HomePage = () => {
             <div className="container">
                 <h2>Department Information</h2>
                 <form onSubmit={handleSubmit}>
-                    {fields.map(field => (
+                    {fields.map((field, index) => (
                         <div className="form-row" key={field.id}>
                             <div className="form-group">
-                                <label htmlFor={`deptId${field.id}`}>Department ID:</label>
                                 <input
                                     type="text"
                                     id={`deptId${field.id}`}
                                     name="deptId"
                                     value={field.deptId}
-                                    onChange={(e) => handleChange(field.id, e)}
+                                    placeholder="Department ID"
+                                    onChange={(e) => handleChange(index, e)}
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor={`deptName${field.id}`}>Department Name:</label>
                                 <input
                                     type="text"
                                     id={`deptName${field.id}`}
                                     name="deptName"
                                     value={field.deptName}
-                                    onChange={(e) => handleChange(field.id, e)}
+                                    placeholder="Department Name"
+                                    onChange={(e) => handleChange(index, e)}
                                 />
-                            </div>
-                            <div className="button-container">
-                                <button type="button" className="delete-button" onClick={() => handleRemoveFields(field.id)}>Delete</button>
-                                <button type="button" className="edit-button" onClick={() => handleEditField(field.id)}>Edit</button>
-                                <button type="button" className="view-button" onClick={handleViewDepartments}>View</button>
                             </div>
                         </div>
                     ))}
                     <button type="button" className="add-button" onClick={handleAddFields}>+</button>
-                    <button type="submit" className="submit-button">Submit</button>
-
+                    <button type="button" className="remove-button" onClick={() => handleRemoveFields(fields.length)}> - </button>
+                    <button type="submit" className="submit-button">Add</button>
                 </form>
+                {showError && (
+                    <div className="error-message">
+                        Please fill in all input fields.
+                    </div>
+                )}
+                {showSuccessPopup && (
+                    <div className="success-popup">
+                        Department added successfully!
+                    </div>
+                )}
+                <div>
+                    <h3>List Of Departments:</h3>
+                    <table className="department-table">
+                        <thead>
+                            <tr>
+                                <th>Department ID</th>
+                                <th>Department Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {departments.map((dept, index) => (
+                                <tr key={index}>
+                                    <td>{dept.deptId}</td>
+                                    <td>
+                                        {dept.isEditing ? (
+                                            <React.Fragment>
+                                                <input
+                                                    type="text"
+                                                    value={fields[index].deptName}
+                                                    onChange={(e) => {
+                                                        const updatedFields = [...fields];
+                                                        updatedFields[index].deptName = e.target.value;
+                                                        setFields(updatedFields);
+                                                    }}
+                                                />
+                                                <button type="button" onClick={() => handleSaveEdit(index)}>Save</button>
+                                            </React.Fragment>
+                                        ) : (
+                                            dept.deptName
+                                        )}
+                                    </td>
+                                    <td>
+                                        {dept.deptName && (
+                                            <React.Fragment>
+                                                {dept.isEditing ? null : (
+                                                    <React.Fragment>
+                                                        <button type="button" className="edit-button" onClick={() => handleEditDepartment(index)}>Edit</button>
+                                                        <button type="button" className="delete-button" onClick={() => handleRemoveDepartment(index)}>Delete</button>
+                                                        <button type="button" className="view-button" onClick={() => handleViewDepartment(index)}>View</button>
+                                                    </React.Fragment>
+                                                )}
+                                            </React.Fragment>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

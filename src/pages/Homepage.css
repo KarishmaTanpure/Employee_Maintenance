@@ -43,6 +43,16 @@ input[type="text"] {
     font-size: 14px;
 }
 
+.remove-button {
+    background-color: green;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+}
 
 .submit-button {
     background-color: #007bff;
@@ -64,30 +74,53 @@ input[type="text"] {
 }
 
 .button-container button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 14px;
+    margin-right: 5px; /* Adjust button spacing as needed */
 }
 
 .delete-button {
     background-color: #dc3545;
     color: white;
-    margin-left: 10px;
-    margin-top: 24px;
+    margin-right: 10px;
 }
 
 .edit-button {
     background-color: #ffc107;
     color: black;
-    margin-top: 24px;
-
+    margin-right: 10px;
 }
 
 .view-button {
     background-color: #007bff;
     color: white;
-    margin-top: 24px;
 }
+.success-popup {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    text-align: center; /* Centered text */
+    padding: 16px; /* Padding */
+    position: fixed; /* Fixed position */
+    bottom: 30px; /* 30px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 999; /* Ensure it's above other elements */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Box shadow */
+}
+
+.department-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.department-table th,
+.department-table td {
+    padding: 8px;
+    text-align: left;
+    position: relative;
+}
+
+.department-table th {
+    background-color: #f2f2f2;
+}
+
