@@ -1,8 +1,19 @@
-
-nav {
+.navbar {
+    display: flex;
+    justify-content: space-between;
     background-color:#e68123;
     color: white;
-    padding: 10px;
-    text-align: center;
+    padding: 10px 20px;
+    align-items: center;
+    width:100%;
   }
-  
+  .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+}
+

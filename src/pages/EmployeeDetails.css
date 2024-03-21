@@ -1,0 +1,22 @@
+.employee-details-container {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff; 
+  }
+  
+  .employee-details-container h2 {
+    margin-bottom: 10px;
+  }
+  
+  .employee-details-container p {
+    margin-bottom: 5px;
+  }
+  
+  .employee-details-container p:last-child {
+    margin-bottom: 0;
+  }
+  

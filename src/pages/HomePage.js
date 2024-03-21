@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import '../components/Navbar.css';
+import './HomePage.css';
+
 
 const HomePage = () => {
     const [fields, setFields] = useState([{ id: 1, deptId: '', deptName: '' }]);

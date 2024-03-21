@@ -1,16 +1,24 @@
 import React from 'react';
-import './pages/Homepage.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import Homepage from './pages/Homepage';
+import HomePage from './pages/HomePage';
 import EmployeeMaintenance from './pages/EmployeeMaintenance';
+import EmployeeSearch from './pages/EmployeeSearch';
+import EmployeeDetails from './pages/EmployeeDetails';
+import LogEffortPage from './pages/LogEffortPage';
+import CreateTasksPage from './pages/TaskPage';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes> 
-          <Route path="/" element={<Homepage />} /> 
+          <Route path="/" element={<HomePage />} /> 
           <Route path="/employee-maintenance" element={<EmployeeMaintenance />} /> 
+          <Route path="/employee-search" element={<EmployeeSearch />} />
+          <Route path="/employee-details/:id" element={<EmployeeDetails />} />
+          <Route path="/log-effort" element={<LogEffortPage />} />
+          <Route path="/create-tasks" element={<CreateTasksPage />} />
+
         </Routes>
       </div>
     </Router>
