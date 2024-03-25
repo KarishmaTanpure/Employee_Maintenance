@@ -1,0 +1,48 @@
+.suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc; 
+    border-top: none; 
+    border-radius: 0 0 5px 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: #fff; 
+  }
+  
+  .suggestions li {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s; 
+  }
+  
+  .suggestions li:hover {
+    background-color: #f0f0f0;
+  }
+  
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+.form-group label {
+    margin-right: 10px; 
+}
+
+.input-container,
+.radio-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 10px;
+}
+
+.radio-container {
+    margin-left: 80px; 
+}
+
+.radio-container label {
+    margin-right: 10px; 
+}
+
+
+

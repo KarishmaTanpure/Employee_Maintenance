@@ -6,6 +6,9 @@ import EmployeeSearch from './pages/EmployeeSearch';
 import EmployeeDetails from './pages/EmployeeDetails';
 import LogEffortPage from './pages/LogEffortPage';
 import CreateTasksPage from './pages/TaskPage';
+import StudentPage from './pages/StudentPage';
+import StudentDetails from './pages/StudentDetails';
+import ClassPage from './pages/ClassPage';
 
 function App() {
   return (
@@ -18,7 +21,9 @@ function App() {
           <Route path="/employee-details/:id" element={<EmployeeDetails />} />
           <Route path="/log-effort" element={<LogEffortPage />} />
           <Route path="/create-tasks" element={<CreateTasksPage />} />
-
+          <Route path="/student-page" element={<StudentPage />} />
+          <Route path="/student-details" element={<StudentDetails />} />
+          <Route path="/class-page" element={<ClassPage />} />
         </Routes>
       </div>
     </Router>

@@ -9,7 +9,10 @@ const Navbar = () => {
                 <Link to="/employee-maintenance">Employee Maintenance</Link>
                 <Link to="/employee-search">Employee Search</Link>
                 <Link to="/log-effort">Log Your Effort</Link>
-                <li><Link to="/create-tasks">Create Tasks</Link></li>
+                <Link to="/create-tasks">Create Tasks</Link>
+                <Link to="/student-page">Add Student</Link>
+                <Link to="/student-details">Student Details</Link>
+                <Link to="/class-page">Class Page</Link>
             </div>
         </nav>
     )
