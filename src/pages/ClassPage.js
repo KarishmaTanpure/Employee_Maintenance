@@ -1,181 +1,263 @@
 import React, { useState } from 'react';
-import Navbar from "../components/Navbar";
 import './ClassPage.css'; 
+import Navbar from '../components/Navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
-const ClassPage = () => {
+
+
+function ClassPage() {
+    const [mode, setMode] = useState('');
+    const [locationVisible, setLocationVisible] = useState(false);
+    const [zoomVisible, setZoomLinkVisible] = useState('');
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [citySuggestions, setCitySuggestions] = useState([]);
+    const [city, setCity] = useState('');
+    const [area, setArea] = useState('');
+    const [location, setLocation] = useState('');
     const [coachName, setCoachName] = useState('');
-    const [numStudents, setNumStudents] = useState(0);
+    const [studentPopupVisible, setStudentPopupVisible] = useState(false);
     const [students, setStudents] = useState([]);
-    const [classMode, setClassMode] = useState('online');
-    const [classLocation, setClassLocation] = useState('');
-    const [zoomLink, setZoomLink] = useState('');
-    const [suggestions, setSuggestions] = useState([
-        'John Doe',
-        'Jane Smith',
-        'Michael Johnson',
-        'Emily Brown',
-        
-    ]);
-   
-
-const handleZoomLinkChange = (event) => {
-    setZoomLink(event.target.value);
-};
-
-
-    const handleCoachNameChange = (event) => {
-        const value = event.target.value.toLowerCase();
-        setCoachName(event.target.value);
+    const [numStudents, setNumStudents] = useState(0);
     
-       
-        if (value.length >= 3) {
-            setSuggestions(prevSuggestions => {
-                return prevSuggestions.filter(suggestion => {
-                    const suggestionLower = suggestion.toLowerCase();
-                    return suggestionLower.includes(value);
-                });
-            });
-        } else {
-            setSuggestions([]);
+
+    const handleModeChange = (event) => {
+        const selectedMode = event.target.value;
+        setMode(selectedMode);
+        if (selectedMode === 'Offline') {
+            setLocationVisible(true);
+            setZoomLinkVisible(false);
+        } else if (selectedMode === 'Online') {
+            setLocationVisible(false);
+            setZoomLinkVisible(true);
         }
     };
-    
-    
 
-    const handleNumStudentsChange = (event) => {
-        const num = parseInt(event.target.value);
-        setNumStudents(num);
-        setStudents(Array.from({ length: num }, (_, index) => ""));
+
+    const handleSearchIconClick = () => {
+        setPopupVisible(true);
     };
 
-    const handleStudentNameChange = (event, index) => {
-        const updatedStudents = [...students];
-        updatedStudents[index] = event.target.value;
+    const handleReturnButtonClick = () => {
+        setPopupVisible(false);
+    };
+
+    const handleSubmit = () => {
+        console.log("Selected mode:", mode);
+        
+    };
+
+    const handleCityChange = (event, value) => {
+        setCity(value);
+    };
+
+    const handleAreaChange = (event) => {
+        setArea(event.target.value);
+    };
+
+    const handleLocationChange = (event) => {
+        setLocation(event.target.value);
+    };
+
+    const handleCoachNameChange = (event) => {
+        setCoachName(event.target.value);
+    };
+
+
+
+    const fetchCitySuggestions = async (inputValue) => {
+        const dummyData = [
+            "New York",
+            "Los Angeles",
+            "Chicago",
+            "Houston",
+            "Phoenix",
+            "Philadelphia",
+            "San Antonio",
+            "San Diego",
+            "Dallas",
+            "San Jose"
+        ];
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        const filteredSuggestions = dummyData.filter(city => city.toLowerCase().startsWith(inputValue.toLowerCase()));
+
+        setCitySuggestions(filteredSuggestions);
+    };
+
+
+     const handleStudentPopupButtonClick = () => {
+        setStudentPopupVisible(true);
+    };
+
+     const handleStudentPopupReturnButtonClick = () => {
+        setStudentPopupVisible(false);
+     };
+     const handleNumStudentsChange = (event) => {
+        const num = parseInt(event.target.value);
+        setNumStudents(num);
+        const updatedStudents = Array.from({ length: num }, (_, index) => ({
+            id: index + 1,
+            name: `Student ${index + 1}`,
+            selected: false,
+        }));
         setStudents(updatedStudents);
     };
 
-    const handleClassModeChange = (event) => {
-        setClassMode(event.target.value);
-    };
-
-    const handleClassLocationChange = (event) => {
-        setClassLocation(event.target.value);
-    };
-
-
-    const handleSuggestionClick = (suggestion) => {
-        setCoachName(suggestion);
-        setSuggestions([]);
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("Coach Name:", coachName);
-        console.log("Number of Students:", numStudents);
-        console.log("Student Names:", students);
-        console.log("Class Mode:", classMode);
-        console.log("Class Location:", classLocation);
-      
+     const handleStudentCheckboxChange = (studentId) => {
+        setStudents(students.map(student => {
+            if (student.id === studentId) {
+                return { ...student, selected: !student.selected }; // Toggle the selected state
+            }
+            return student;
+        }));
     };
 
     return (
-        <div className="page-container">
-            <Navbar />
-            <div className="content-container">
-                <form className="form-container" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="coachName">Coach Name:</label>
-                        <input
-                            type="text"
-                            id="coachName"
-                            value={coachName}
-                            onChange={handleCoachNameChange}
-                        />
-                        {coachName.length >= 3 && suggestions.length > 0 && (
-                            <ul className="suggestions">
-                                {suggestions.map((suggestion, index) => (
-                                    <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                                        {suggestion}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="numStudents">Number of Students:</label>
-                        <input
-                            type="number"
-                            id="numStudents"
-                            value={numStudents}
-                            onChange={handleNumStudentsChange}
-                        />
-                    </div>
-                    {students.map((studentName, index) => (
-                        <div className="form-group" key={index}>
-                            <label htmlFor={`student${index + 1}`}>Student {index + 1}:</label>
-                            <input
-                                type="text"
-                                id={`student${index + 1}`}
-                                value={studentName}
-                                onChange={(event) => handleStudentNameChange(event, index)}
-                            />
-                            
-                        </div>
-                    ))}
-                    <div className="form-group">
-    <label>Class Mode:</label>
-    <div className="radio-container">
-        <label>
-            <input
-                type="radio"
-                value="online"
-                checked={classMode === 'online'}
-                onChange={handleClassModeChange}
-            />
-            Online
-        </label>
-        <label>
-            <input
-                type="radio"
-                value="offline"
-                checked={classMode === 'offline'}
-                onChange={handleClassModeChange}
-            />
-            Offline
-        </label>
-    </div>
-</div>
-{classMode === 'online' && (
-    <div className="form-group">
-        <label htmlFor="zoomLink">Zoom Link:</label>
-        <input
-            type="text"
-            id="zoomLink"
-            value={zoomLink}
-            onChange={handleZoomLinkChange}
-            placeholder="Enter Zoom Link"
-        />
-    </div>
-)}
-{classMode === 'offline' && (
-    <div className="form-group">
-        <label htmlFor="classLocation">Class Location:</label>
-        <input
-            type="text"
-            id="classLocation"
-            value={classLocation}
-            onChange={handleClassLocationChange}
-            placeholder="Enter Class Location"
-        />
-    </div>
-)}
-
-       <div className="button-container">
-                        <button type="submit">Save</button>
-                        <button type="button">Cancel</button>
-                    </div>
-                </form>
+        <div>
+        <Navbar/>
+        <div className="content-container">
+        <div className="input-row radio-row"> 
+            <label htmlFor="classmode">Class Mode:</label>
+                <label>
+                    <input type="radio" id="offline" name="mode" value="Offline" onChange={handleModeChange} />
+                    Offline
+                </label>
+                <label>
+                    <input type="radio" id="online" name="mode" value="Online" onChange={handleModeChange} />
+                    Online
+                </label>
             </div>
+            {locationVisible && (
+                   <div className="input-row">
+                        <label htmlFor="location">Location:</label>
+                        <TextField id="standard-basic" variant="standard" />
+                        <span className="search-icon" onClick={handleSearchIconClick} > <FontAwesomeIcon icon={faSearch} /></span>
+                    </div>
+                )}
+                {zoomVisible && (
+                       <div className="input-row">
+                       <label htmlFor="zoomlink">Zoom/Google Meet Link:</label>
+                       <TextField id="standard-basic" variant="standard" />
+                       </div>
+                )}
+                <div className="input-row"> 
+                    <label htmlFor="coachName">Coach Name:</label>
+                    <Select
+                        id="coachName"
+                        value={coachName}
+                        onChange={handleCoachNameChange}
+                        variant="standard"
+                    >
+                        <MenuItem value="">Select Coach Name</MenuItem>
+                        <MenuItem value="Coach A">Coach A</MenuItem>
+                        <MenuItem value="Coach B">Coach B</MenuItem>
+                        <MenuItem value="Coach C">Coach C</MenuItem>
+                    </Select>
+                </div>
+                <div className="input-row">
+                        <label htmlFor="studentnumber">Number Of Students:</label>
+                        <TextField id="standard-basic" variant="standard" value={numStudents} onChange={handleNumStudentsChange} />
+                    </div>
+                <div className="input-row">
+                        <label htmlFor="student">Select Student:</label>
+                        <TextField id="standard-basic" variant="standard" />
+                        <span className="search-icon" onClick={handleStudentPopupButtonClick} > <FontAwesomeIcon icon={faSearch} /></span>
+                    </div>
+        </div>
+        <button onClick={handleSubmit} className="submit-button" >Submit</button>
+        {popupVisible && (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <div className="popup-inputs">
+                        <div className="input-row">
+                            <label htmlFor="city">City:</label>
+                            <Autocomplete
+                                    id="city"
+                                    freeSolo
+                                    options={citySuggestions}
+                                    value={city}
+                                    onChange={handleCityChange}
+                                    onInputChange={(event, newInputValue) => {
+                                        if (newInputValue.length >= 3) {
+                                            fetchCitySuggestions(newInputValue);
+                                        }
+                                    }}
+                                    renderInput={(params) => <TextField {...params} variant="standard" className="text-field" />}
+                                />
+                        </div>
+                        
+                        <div className="input-row">
+                            <label htmlFor="area">Area:</label>
+                            <Select
+                                    id="area"
+                                    value={area}
+                                    onChange={handleAreaChange}
+                                    variant="standard"
+                                    className="text-field"
+                                >
+                                    <MenuItem value="">Select Area</MenuItem>
+                                    <MenuItem value="Downtown">Downtown</MenuItem>
+                                    <MenuItem value="Midtown">Midtown</MenuItem>
+                                    <MenuItem value="Uptown">Uptown</MenuItem>
+                                    </Select>
+                        </div>
+                        <div className="input-row">
+                            <label htmlFor="location">Location:</label>
+                            <Select
+                                    id="location"
+                                    value={location}
+                                    onChange={handleLocationChange}
+                                    variant="standard"
+                                    className="text-field"
+                                >
+                                    <MenuItem value="">Select Location</MenuItem>
+                                    <MenuItem value="">Location1</MenuItem>
+                            </Select>
+                        </div>
+                        </div>
+                        <button onClick={handleReturnButtonClick}>Return</button>
+                    </div>
+                </div>
+        )}
+                {studentPopupVisible && (
+                    <div className="popup">
+                        <div className="popup-inner">
+                            <div className="popup-inputs">
+                                <div className="input-row">
+                                    <h3>Find your students:</h3>
+                                </div>
+                        <div className="input-row">
+                        <label htmlFor="id">ID:</label>
+                        <TextField id="standard-basic" variant="standard" className="id-input"/>
+                        </div>
+                        <div className="input-row">
+                        <label htmlFor="name">Name:</label>
+                        <TextField id="standard-basic" variant="standard" className="name-input" />
+                        </div>
+                        <div>
+                        <button >Find</button>
+                        </div>
+                        <div>
+                        {students.map(student => (
+                                <div key={student.id} className="input-row">
+                                    <input type="checkbox" checked={student.selected}
+                                    onChange={() => handleStudentCheckboxChange(student.id)}
+                                />
+                                <label htmlFor={`student-${student.id}`}>{student.name}</label>
+                                </div>
+                            ))}
+                        </div>
+                                </div>
+                                <button onClick={handleStudentPopupReturnButtonClick}>Close</button>
+                                </div>
+                                </div>           
+            )}
         </div>
     );
 }
