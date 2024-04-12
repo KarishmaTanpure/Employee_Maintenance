@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import './HomePage.css';
+import "./TaskPage.css";
 
 const CreateTasksPage = () => {
     const [fields, setFields] = useState([{ id: 1, taskName: '', taskDetails: '' }]);
@@ -56,8 +56,8 @@ const CreateTasksPage = () => {
                         </div>
                     ))}
                     <div className="button-group">
-                        <button type="button" onClick={handleAddFields}>+</button>
-                        {fields.length > 1 && <button type="button" onClick={() => handleRemoveFields(fields[fields.length - 1].id)}>-</button>}
+                        <button type="button" className='add' onClick={handleAddFields}>+</button>
+                        {fields.length > 1 && <button type="button" className = "remove-button" onClick={() => handleRemoveFields(fields[fields.length - 1].id)}>-</button>}
                     </div>
                     <button type="submit">Add Tasks</button>
                 </form>

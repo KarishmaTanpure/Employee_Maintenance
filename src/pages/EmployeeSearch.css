@@ -16,3 +16,12 @@ h2{
     flex-direction: column;
     align-items: center;
 }
+
+label{
+display: inline;
+width: 150px;
+}
+
+.center-button{
+    color: blue;
+}
